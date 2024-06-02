@@ -39,3 +39,6 @@ build docker:
 docker build -t juice-test-app .
 docker run -p 3000:3000 --name juice-test-runner juice-test-app
 
+
+
+

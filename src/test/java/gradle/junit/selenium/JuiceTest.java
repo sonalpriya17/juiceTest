@@ -55,7 +55,7 @@ class JuiceTest {
 
 
     //TODO Task2: Login and post a product review using Selenium
-    //@Test
+    @Test
     void loginAndPostProductReviewViaUi() throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
         driver.get(baseUrl + "/#/login");
@@ -107,7 +107,7 @@ class JuiceTest {
     }
 
     // TODO Task3: Login and post a product review using the Juice Shop API
-    @Test
+/*    //@Test
     void api_loginAndPostProductReviewViaApi() {
         Map<String, String> commonHeaders = createCommonHeaders();
         
@@ -155,8 +155,8 @@ class JuiceTest {
         List<String> messages = jsonPath.getList("data.message");
         System.out.println("First message in the list: " + messages.get(0) + " _ " + java.time.ZonedDateTime.now(java.time.ZoneId.of("Asia/Kolkata")));
         Assertions.assertTrue(messages.contains(message), "Review message not found in the reviews.");
-    }
-    //@Test
+    }*/
+    @Test
     void api_loginAndPostProductReviewViaApi2() {
         Map<String, String> commonHeaders = createCommonHeaders();
 
@@ -181,13 +181,13 @@ class JuiceTest {
         authHeaders.put("Authorization", "Bearer " + token);
         authHeaders.put("Cookie", "language=en; welcomebanner_status=dismiss; token=" + token + "; cookieconsent_status=dismiss");
 
-/*        given()
+        given()
                 .headers(authHeaders)
                 .body(reviewPayload)
                 .put(baseUrl + "/rest/products/1/reviews")
                 .then()
                 .statusCode(201)
-                .body("status", equalTo("success"));*/
+                .body("status", equalTo("success"));
 
         // Assert that the product review has persisted
         // Fetch all reviews for the product and verify if the review message exists
