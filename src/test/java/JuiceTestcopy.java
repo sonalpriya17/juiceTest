@@ -1,31 +1,24 @@
 import gradle.junit.selenium.Customer;
 import gradle.junit.selenium.pages.AllProductsPage;
+import gradle.junit.selenium.pages.LoginPage;
 import gradle.junit.selenium.pages.ReviewPage;
 import gradle.junit.selenium.tests.BaseTest;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.restassured.path.json.JsonPath;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
-import gradle.junit.selenium.pages.LoginPage;
-import org.testng.Assert;
-
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class JuiceTest extends BaseTest {
-    private static String address = "host.docker.internal";
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
+
+class JuiceTestcopy extends BaseTest {
+    private static String address = "localhost";
     private static String port = "3000";
     private static String baseUrl = String.format("http://%s:%s", address, port);
 
@@ -35,23 +28,9 @@ class JuiceTest extends BaseTest {
 
 
     @BeforeAll
-    static void setup() throws MalformedURLException {
+    static void setup() {
         WebDriverManager.chromedriver().setup();
-        ChromeOptions options = new ChromeOptions();
-        options.setCapability("goog:loggingPrefs", Map.of(
-                "browser", "ALL",
-                "driver", "ALL"
-        ));
-    
-    // Set up Chrome options if needed, e.g., headless mode, specific preferences
-    // options.addArguments("--headless");
-
-    // Specify the URL of the Selenium Grid or Remote WebDriver server
-        URL remoteAddress = new URL("http://localhost:4044/wd/hub");
-
-    // Initialize the driver with the remote address and Chrome options
-        driver = new RemoteWebDriver(remoteAddress, options);
-
+        driver = new ChromeDriver();
 
         //TODO Task1: Add your credentials to customer i.e. email, password and security answer.
         customer = new Customer.Builder()
@@ -65,11 +44,6 @@ class JuiceTest extends BaseTest {
     @Test
     void loginAndPostProductReviewViaUi() throws InterruptedException {
         driver.get(baseUrl + "/#/login");
-        //driver.get("https://www.wikipedia.org/");
-
-        System.out.println("driver url: "+ driver.getTitle());
-        Thread.sleep(50000);
-        Assert.assertTrue(!driver.getTitle().isEmpty());
         LoginPage loginPage = new LoginPage(driver);
         AllProductsPage allProductsPage = new AllProductsPage(driver);
         ReviewPage reviewPage = new ReviewPage(driver);
