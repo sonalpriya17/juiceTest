@@ -13,7 +13,7 @@ Please ensure you have the following set up on your system:
 ### Setting up Juice Shop Application
 We will be using JuiceShop application during our discussion, please ensure that you have JuiceShop application running on your system in a docker container. Run the following to download the image and start the container:
 
-`docker run -d -p 3000:3000 bkimminich/juice-shop`
+
 
 Open your web browser and navigate to http://localhost:3000 to ensure the Juice Shop application is up and running.
 
@@ -37,7 +37,9 @@ Please manually register a user in JuiceShop application. We will use this to wr
 
 build docker:
 docker build -t juice-test-app .
-docker run -p 3000:3000 --name juice-test-runner juice-test-app
+docker run --name juice-test-runner juice-test-app
+
+docker rm juice-test-runner
 
 
 

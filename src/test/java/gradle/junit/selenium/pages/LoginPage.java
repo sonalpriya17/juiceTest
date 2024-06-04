@@ -16,7 +16,7 @@ public class LoginPage extends BasePage{
     @FindBy(id = "loginButton")
     private WebElement loginButton;
 
-    @FindBy(xpath = "//*[@id=\"mat-dialog-0\"]/app-welcome-banner/div/div[2]/button[2]")
+    @FindBy(xpath = "//*[@id=\"mat-dialog-0\"]/app-welcome-banner/div/div[2]/button[2]") // todo handle this
     private WebElement dismissButton;
 
     @FindBy(xpath = "/html/body/div[1]/div/a")

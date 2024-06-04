@@ -2,7 +2,7 @@ import gradle.junit.selenium.Customer;
 import gradle.junit.selenium.pages.AllProductsPage;
 import gradle.junit.selenium.pages.LoginPage;
 import gradle.junit.selenium.pages.ReviewPage;
-import gradle.junit.selenium.tests.BaseTest;
+import gradle.junit.selenium.baseTest.BaseTestUI;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.restassured.path.json.JsonPath;
 import org.junit.jupiter.api.Assertions;
@@ -17,7 +17,7 @@ import java.util.Map;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
-class JuiceTestcopy extends BaseTest {
+class JuiceTestcopy extends BaseTestUI {
     private static String address = "localhost";
     private static String port = "3000";
     private static String baseUrl = String.format("http://%s:%s", address, port);
