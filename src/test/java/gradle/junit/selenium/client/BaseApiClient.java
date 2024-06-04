@@ -4,10 +4,10 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 
-public abstract class ApiClient {
+public abstract class BaseApiClient {
     protected final RequestSpecification requestSpec;
     
-    public ApiClient(String baseUri) {
+    public BaseApiClient(String baseUri) {
         this.requestSpec = RestAssured.given()
                 .baseUri(baseUri)
                 .contentType(ContentType.JSON);

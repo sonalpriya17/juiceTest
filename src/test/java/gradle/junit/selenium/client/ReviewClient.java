@@ -3,7 +3,7 @@ package gradle.junit.selenium.client;
 import gradle.junit.selenium.dto.request.ReviewRequest;
 import gradle.junit.selenium.dto.response.ReviewResponse;
 
-public class ReviewClient extends ApiClient {
+public class ReviewClient extends BaseApiClient {
     public ReviewClient(String baseUri) {
         super(baseUri);
     }
