@@ -1,6 +1,7 @@
 package gradle.junit.selenium.baseTest;
 
 import gradle.junit.selenium.Customer;
+import gradle.junit.selenium.util.Env;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,7 +29,7 @@ public class BaseTestUI implements BaseTest {
             ));
             URL remoteAddress = null;
             try {
-                remoteAddress = new URL("http://host.docker.internal:4044/wd/hub");
+                remoteAddress = new URL(Env.get("SELENIUM_HUB_URL"));
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
             }

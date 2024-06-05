@@ -11,6 +11,8 @@ dependencies {
     testImplementation 'io.rest-assured:rest-assured:5.4.0'
     implementation 'io.github.bonigarcia:webdrivermanager:5.6.2'
     testImplementation 'org.hamcrest:hamcrest:2.2'
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
+    implementation 'io.github.cdimascio:dotenv-java:3.0.0'
 
     def junitJupiterVersion = '5.8.2'
     testImplementation "org.junit.jupiter:junit-jupiter:$junitJupiterVersion"
@@ -22,7 +24,14 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
     testCompileOnly 'org.projectlombok:lombok:1.18.20'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
+}
 
+sourceSets {
+    test {
+        resources {
+            srcDirs 'src/test/java/resources'
+        }
+    }
 }
 
 test {

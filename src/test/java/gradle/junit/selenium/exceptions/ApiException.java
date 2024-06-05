@@ -1,11 +1,15 @@
 package gradle.junit.selenium.exceptions;
 
+import io.restassured.response.Response;
+import lombok.Getter;
+
+@Getter
+
 public class ApiException extends RuntimeException {
-    public ApiException(String message) {
+    Response response;
+    public ApiException(String message,Response response) {
         super(message);
+        this.response=response;
     }
 
-    public ApiException(String message, Throwable cause) {
-        super(message, cause);
-    }
 }

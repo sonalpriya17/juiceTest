@@ -3,51 +3,44 @@ package gradle.junit.selenium.client;
 import gradle.junit.selenium.dto.request.LoginRequest;
 import gradle.junit.selenium.dto.response.LoginResponse;
 import gradle.junit.selenium.exceptions.ApiException;
+import gradle.junit.selenium.util.ApiResponseValidator;
 import io.restassured.response.Response;
+import io.restassured.http.Header;
+import org.slf4j.Logger;
+import gradle.junit.selenium.util.LoggerUtil;
 
 public class LoginClient extends BaseApiClient {
+    private static final Logger logger = LoggerUtil.getLogger();
+
     public LoginClient(String baseUri) {
         super(baseUri);
     }
-    
+
     public LoginResponse login(LoginRequest loginRequest) {
+        Response response = requestSpec
+                .body(loginRequest)
+                .post("/rest/user/login");
+        
+        ApiResponseValidator.validateHTTPStatusCode(response);
+        logger.debug("response status Code: ---->  " + response.getStatusCode());
+        LoginResponse loginResponse = response.as(LoginResponse.class);
+        loginResponse.setHttpStatusCode(response.getStatusCode());
+        
 
-            Response response = null;
-            try {
-                response = requestSpec
-                        .body(loginRequest)
-                        .post("/rest/user/login");
-
-                int statusCode = response.getStatusCode();
-                System.out.println("Login Response HTTP Status code: "+ statusCode);
-
-                if (statusCode >= 200 && statusCode < 300) {
-                    return response.as(LoginResponse.class);
-                } else {
-                    String errorMessage = response.getBody().asString();
-                    switch (statusCode) {
-                        case 400:
-                            throw new ApiException("Bad Request: " + errorMessage);
-                        case 401:
-                            throw new ApiException("Unauthorized this was 401: " + errorMessage);
-                        case 403:
-                            throw new ApiException("Forbidden: " + errorMessage);
-                        case 404:
-                            throw new ApiException("Not Found: " + errorMessage);
-                            // Add more cases for other status codes as needed
-                        default:
-                            throw new ApiException("API request failed with status code: " + statusCode + ", Error message: " + errorMessage);
-                    }
-                }
-            } catch (ApiException e) {
-                throw e;
-            } catch (Exception e) {
-                throw new ApiException("Error occurred during login request", e);
-            } finally {
-                if (response != null) {
-                    response.then().log().ifError();
-                }
+        logger.debug("Received response with status code: " + response.getStatusCode());
+        String contentTypeHeader = response.getHeader("Content-Type");
+        if (contentTypeHeader != null && !contentTypeHeader.isEmpty()) {
+            if (contentTypeHeader.contains("application/json") || contentTypeHeader.contains("text/html")) {
+                logger.debug("Processing login response with supported Content-Type: " + contentTypeHeader);
+                return loginResponse;
+            } else {
+                logger.error("Failed to process login response due to unsupported Content-Type: " + contentTypeHeader);
+                throw new IllegalStateException("Unsupported Content-Type in response: " + contentTypeHeader);
             }
+        } else {
+            logger.error("Content-Type header is missing in the response.");
+            throw new IllegalStateException("Missing Content-Type in response");
         }
+    }
 
 }
