@@ -39,7 +39,7 @@ class JuiceAPITestAPI extends BaseTestAPI {
         logger.info("Login response email: {}", loginEmail);
 
         //Put a review
-        ReviewClient reviewClient = new ReviewClient(baseUrl);
+        ReviewClient reviewClient = new ReviewClient(baseUrl, 1);
 
         ReviewRequest reviewRequest = new ReviewRequest();
         Date date = new Date();

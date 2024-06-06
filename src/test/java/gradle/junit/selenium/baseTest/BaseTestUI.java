@@ -1,7 +1,7 @@
 package gradle.junit.selenium.baseTest;
 
 import gradle.junit.selenium.Customer;
-import gradle.junit.selenium.util.Env;
+import gradle.junit.selenium.util.EnvUtil;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -21,7 +21,7 @@ public class BaseTestUI implements BaseTest {
     @BeforeAll
     public static void setUp() {
         WebDriverManager.chromedriver().setup();
-        if ("host.docker.internal".equals(address)) {
+        if ("host.docker.internal".equals(EnvUtil.get("TARGET_HOST"))) {
             ChromeOptions options = new ChromeOptions();
             options.setCapability("goog:loggingPrefs", Map.of(
                     "browser", "ALL",
@@ -29,7 +29,7 @@ public class BaseTestUI implements BaseTest {
             ));
             URL remoteAddress = null;
             try {
-                remoteAddress = new URL(Env.get("SELENIUM_HUB_URL"));
+                remoteAddress = new URL(EnvUtil.get("SELENIUM_HUB_URL"));
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
             }
